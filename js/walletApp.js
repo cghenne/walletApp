@@ -1,14 +1,14 @@
 var app = angular.module('walletApp', []);
 
 
-app.controller('walletCtrl', function($scope) {
+app.controller('walletCtrl', function($scope){
     //init
     $scope.transactionTypes = ['Add','Remove'];
     $scope.transactionType = $scope.transactionTypes[0]; //prevent the empty option for select
     $scope.negativeAmount = false;
     $scope.broke = false;
     
-    if (localStorage.getItem("total") === null) {
+    if (localStorage.getItem("total") === null){
         // first time
         $scope.currency = "£";
         $scope.total = 0;
@@ -23,13 +23,13 @@ app.controller('walletCtrl', function($scope) {
     }
     
     
-    $scope.updateCurrency = function (newCurrency){
+    $scope.updateCurrency = function(newCurrency){
         $scope.currency = newCurrency;
         localStorage.setItem('currency', newCurrency);
     }
     
     
-    $scope.newTransaction = function () {
+    $scope.newTransaction = function(){
         if($scope.amount < 0){ // check if amount is positive
             $scope.negativeAmount = true;           
         }else{
@@ -57,7 +57,7 @@ app.controller('walletCtrl', function($scope) {
     };
     
     
-    $scope.reset = function () {
+    $scope.reset = function(){
         $scope.negativeAmount = false;
         $scope.broke = false;
         $scope.wallet = [];

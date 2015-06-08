@@ -11,9 +11,10 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="apple-touch-icon" href="apple-touch-icon.png">
 
-        <link rel="stylesheet" href="css/bootstrap.min.css">
-       
+        <link rel="stylesheet" href="css/bootstrap.min.css">       
         <link rel="stylesheet" href="css/bootstrap-theme.min.css">
+        <link rel='stylesheet' href='http://css-tricks.com/examples/ViewSourceButton/css/style.css'>
+	<link rel='stylesheet' href='http://css-tricks.com/examples/ViewSourceButton/css/prettify.css'>
         <link rel="stylesheet" href="css/main.css">
 
        
@@ -38,7 +39,7 @@
                     <ul class="nav navbar-nav">
                         <li class="active"><a href="#">Home <span class="sr-only">(current)</span></a></li>
                         <li><a href="#" ng-click="reset();">Reset</a></li>
-                        <li><a href="#">View Source</a></li>
+                        <li><a href="#source-code" id="view-source">View Source</a></li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         <li><a href="#">Currency is: {{currency}}</a></li>
@@ -119,15 +120,34 @@
             
         </div>
         
+        <div id="source-code">
+			<a href="#" id="x"><img src="http://css-tricks.com/examples/ViewSourceButton/images/x.png" alt="close"></a>
+		</div>
+        
        
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
         <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.11.2.min.js"><\/script>')</script>
-
         <script src="js/vendor/bootstrap.min.js"></script>
+	    <script src="http://css-tricks.com/examples/ViewSourceButton/prettify/prettify.js"></script>
         
         <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
         
         <script src="js/walletApp.js"></script>
+        <script>
+            $(function() {
+                $("<pre />", {
+                    "html":   '&lt;!DOCTYPE html>\n&lt;html>\n' +
+                            $("html")
+                                .html()
+                                .replace(/[<>]/g, function(m) { return {'<':'&lt;','>':'&gt;'}[m]})
+                                .replace(/((ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?)/gi,'<a href="$1">$1</a>') +
+                            '\n&lt;/html>',
+                    "class": "prettyprint"
+                }).appendTo("#source-code");
+
+                prettyPrint();
+            });
+        </script>
 
       
     </body>
