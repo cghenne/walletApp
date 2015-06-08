@@ -20,3 +20,11 @@
 #source-code pre a, #source-code pre a span { text-decoration: none; color: #00ccff !important; }
 #x { position: absolute; top: 30px; left: 10%; margin-left: -41px; }
 .button { background: #00ccff; padding: 10px 20px; color: white; text-decoration: none; -moz-border-radius: 10px; -webkit-border-radius: 10px; border-radius: 10px; }
+
+#forTheFunnyChaps{
+    position:absolute;
+    bottom:30px;
+    left:30px;
+    padding:5px;
+    background:#000;
+}
