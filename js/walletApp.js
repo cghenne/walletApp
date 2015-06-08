@@ -8,24 +8,30 @@ app.controller('walletCtrl', function($scope) {
     $scope.negativeAmount = false;
     $scope.broke = false;
     
-    //init if no persistance
-    $scope.currency = "£";
-    $scope.total = 0;
+    if (localStorage.getItem("total") === null) {
+        // first time
+        $scope.currency = "£";
+        $scope.total = 0;
+        $scope.wallet = [];
+        localStorage.setItem('currency', $scope.currency);
+        localStorage.setItem('total', $scope.total);
+        localStorage.setItem('wallet', JSON.stringify($scope.wallet));
+    }else{
+        $scope.currency = localStorage.getItem('currency');
+        $scope.total = parseFloat(localStorage.getItem('total'));
+        $scope.wallet = JSON.parse(localStorage.getItem('wallet'));
+    }
     
-    // dummy data
-    $scope.wallet = [
-        {transactionType:"Add", amount:'200', timestamp:"2015-06-08T16:57:24.973Z" },
-        {transactionType:"Add", amount:'100', timestamp:"2015-06-08T16:57:24.973Z" },
-        {transactionType:"Add", amount:'200', timestamp:"2015-06-08T16:57:24.973Z" },
-        {transactionType:"Remove", amount:'100', timestamp:"2015-06-08T16:57:24.973Z" },
-        {transactionType:"Remove", amount:'20', timestamp:"2015-06-08T16:57:24.973Z" },
-        {transactionType:"Remove", amount:'30', timestamp:"2015-06-08T16:57:24.973Z" }
-    ];
+    
+    $scope.updateCurrency = function (newCurrency){
+        $scope.currency = newCurrency;
+        localStorage.setItem('currency', newCurrency);
+    }
+    
     
     $scope.newTransaction = function () {
         if($scope.amount < 0){ // check if amount is positive
-            $scope.negativeAmount = true;
-           
+            $scope.negativeAmount = true;           
         }else{
             $scope.negativeAmount = false; // reset negative amount
             if($scope.transactionType === "Remove" && $scope.total < $scope.amount ){ // check if remove and not broke
@@ -33,22 +39,23 @@ app.controller('walletCtrl', function($scope) {
             }else{
                 $scope.broke = false; // reset broke
                 
-                $scope.wallet.push({transactionType:$scope.transactionType, amount:$scope.amount, timestamp:new Date()}); // add transation
-                
+                $scope.wallet.push({transactionType:$scope.transactionType, amount:$scope.amount, timestamp:new Date()}); // add transaction
+                localStorage.setItem('wallet', JSON.stringify($scope.wallet));
                 // update total
                 if($scope.transactionType === "Add"){ 
                     $scope.total += $scope.amount; 
                 }else{
                     $scope.total -= $scope.amount;
                 }
+                localStorage.setItem('total', $scope.total);
                 
                 // reset form
                 $scope.amount = '';
                 $scope.myForm.$setPristine();
             }
-        }       
-        
+        }
     };
+    
     
     $scope.reset = function () {
         $scope.negativeAmount = false;
@@ -56,6 +63,11 @@ app.controller('walletCtrl', function($scope) {
         $scope.wallet = [];
         $scope.currency = "£";
         $scope.total = 0;
+        $scope.wallet = [];
+        localStorage.setItem('currency', $scope.currency);
+        localStorage.setItem('total', $scope.total);
+        localStorage.setItem('wallet', JSON.stringify($scope.wallet));
+        //reset form
         $scope.amount = '';
         $scope.myForm.$setPristine();
     }

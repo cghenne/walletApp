@@ -45,9 +45,9 @@
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Change currency <span class="caret"></span></a>
                             <ul class="dropdown-menu">
-                                <li><a href="#" ng-click="currency = '£'">&pound;</a></li>
-                                <li><a href="#" ng-click="currency = '€'">&euro;</a></li>
-                                <li><a href="#" ng-click="currency = '$'">$</a></li>                                
+                                <li><a href="#" ng-click="updateCurrency('£');">&pound;</a></li>
+                                <li><a href="#" ng-click="updateCurrency('€');">&euro;</a></li>
+                                <li><a href="#" ng-click="updateCurrency('$');">$</a></li>                                
                             </ul>
                         </li>
                     </ul>
@@ -102,7 +102,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr ng-repeat="tx in wallet">
+                            <tr ng-repeat="tx in wallet track by $index">
                                 <td>{{tx.transactionType}}</td>
                                 <td>{{currency}}{{tx.amount}}</td>
                                 <td>{{tx.timestamp  | date:"MM/dd/yyyy 'at' h:mma"}}</td>
